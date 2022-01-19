@@ -25,15 +25,23 @@ const PhotoList: React.VFC = () => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<ItemT[]>([]);
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        'https://picsum.photos/v2/list?page=9&limit=100'
+      );
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetch('https://picsum.photos/v2/list?page=9&limit=100')
-      .then((response) => {
-        setLoading(true);
-        return response.json();
-      })
-      .then((json) => setData(json))
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+    fetchData();
   }, []);
 
   return isLoading ? (
