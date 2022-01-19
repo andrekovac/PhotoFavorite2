@@ -1,52 +1,67 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { FlatList, ListRenderItemInfo } from 'react-native';
+import { ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
 type ItemT = {
   id: string;
+  author: string;
+  download_url: string;
   title: string;
 };
 
-type ItemProps = Pick<ItemT, 'title'>;
+type ItemProps = Pick<ItemT, 'author' | 'download_url'>;
 
-const Item: React.VFC<ItemProps> = ({ title }) => (
-  <ItemWrapper>
-    <ItemText>{title}</ItemText>
-  </ItemWrapper>
+const Item: React.VFC<ItemProps> = ({ author, download_url }) => (
+  <ItemImageWrapper>
+    <ItemImage source={{ uri: download_url }} />
+    <ItemText>by {author.toUpperCase()}</ItemText>
+  </ItemImageWrapper>
 );
 
-const placeholderList = Array(100)
-  .fill(0)
-  .map((_, i) => ({ id: String(i + 1), title: `Title ${i + 1}` }));
-
-const renderItem = ({ item }: ListRenderItemInfo<ItemT>) => (
-  <Item title={item.title} />
-);
+const renderItem = ({
+  item: { author, download_url },
+}: ListRenderItemInfo<ItemT>) => <Item {...{ author, download_url }} />;
 
 const PhotoList: React.VFC = () => {
-  return (
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState<ItemT[]>([]);
+
+  useEffect(() => {
+    fetch('https://picsum.photos/v2/list?page=9&limit=100')
+      .then((response) => {
+        setLoading(true);
+        return response.json();
+      })
+      .then((json) => setData(json))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return isLoading ? (
+    <ActivityIndicator />
+  ) : (
     <FlatList
-      data={placeholderList}
+      data={data}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
     />
   );
 };
 
-const ItemWrapper = styled.View`
-  height: 300px;
-  width: 300px;
-  background-color: #3f87f5;
-  margin: 5px 0;
-
-  /* children */
-  justify-content: center;
-  align-items: center;
+const ItemImage = styled.Image`
+  width: 100%;
+  aspect-ratio: 1.5;
 `;
 
 const ItemText = styled.Text`
   color: white;
-  font-size: 22px;
+  padding-top: 5px;
+`;
+
+const ItemImageWrapper = styled.View`
+  margin: 10px 0;
+  border: 5px solid #1d1d28;
+  background-color: #1d1d28;
 `;
 
 export default PhotoList;

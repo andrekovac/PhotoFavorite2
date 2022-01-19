@@ -15,11 +15,7 @@ const PhotosScreen: React.VFC<PhotosScreenProps> = () => {
 };
 
 const Wrapper = styled.View`
-  flex: 1;
-
-  /* children */
-  justify-content: center;
-  align-items: center;
+  padding: 0 10px;
 `;
 
 export default PhotosScreen;
