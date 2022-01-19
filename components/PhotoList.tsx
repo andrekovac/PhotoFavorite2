@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  ListRenderItemInfo,
+  TouchableOpacity,
+} from 'react-native';
 
 type ItemT = {
   id: string;
@@ -12,10 +18,16 @@ type ItemT = {
 type ItemProps = Pick<ItemT, 'author' | 'download_url'>;
 
 const Item: React.VFC<ItemProps> = ({ author, download_url }) => (
-  <ItemImageWrapper>
-    <ItemImage source={{ uri: download_url }} />
-    <ItemText>by {author.toUpperCase()}</ItemText>
-  </ItemImageWrapper>
+  <TouchableOpacity
+    onPress={() => {
+      Alert.alert('Artist', author, [{ text: 'OK' }], { cancelable: false });
+    }}
+  >
+    <ItemImageWrapper>
+      <ItemImage source={{ uri: download_url }} />
+      <ItemText>by {author.toUpperCase()}</ItemText>
+    </ItemImageWrapper>
+  </TouchableOpacity>
 );
 
 const renderItem = ({
