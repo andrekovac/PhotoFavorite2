@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import {
   ActivityIndicator,
@@ -8,14 +8,10 @@ import {
   Pressable,
 } from 'react-native';
 
-type ItemT = {
-  id: string;
-  author: string;
-  download_url: string;
-  url: string;
-};
+import usePhotos from '../hooks/usePhotos';
+import { PhotoT } from '../domain/photos';
 
-type ItemProps = Pick<ItemT, 'author' | 'download_url' | 'url'>;
+type ItemProps = Pick<PhotoT, 'author' | 'download_url' | 'url'>;
 
 const Item: React.VFC<ItemProps> = ({ author, download_url, url }) => (
   <Pressable
@@ -37,34 +33,14 @@ const Item: React.VFC<ItemProps> = ({ author, download_url, url }) => (
 
 const renderItem = ({
   item: { author, download_url, url },
-}: ListRenderItemInfo<ItemT>) => <Item {...{ author, download_url, url }} />;
+}: ListRenderItemInfo<PhotoT>) => <Item {...{ author, download_url, url }} />;
 
 type PhotoListProps = {
   page: number;
 };
 
 const PhotoList: React.VFC<PhotoListProps> = ({ page }) => {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState<ItemT[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `https://picsum.photos/v2/list?page=${page}&limit=100`
-        );
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [page]);
+  const { data, isLoading } = usePhotos(page);
 
   return isLoading ? (
     <ActivityIndicator />
