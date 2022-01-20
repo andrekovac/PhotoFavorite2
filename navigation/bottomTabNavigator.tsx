@@ -14,8 +14,7 @@ import PhotosScreen from '../screens/PhotosScreen';
 import CounterScreen from '../screens/CounterScreen';
 import { RootTabParamList, RootTabScreenProps } from '../types';
 import FavoritesScreen from '../screens/FavoritesScreen';
-import { useContext } from 'react';
-import { CounterContext, CounterContextT } from '../context/counter';
+import useCounterRedux from '../hooks/useCounterRedux';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -25,7 +24,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const { count } = useContext<CounterContextT>(CounterContext);
+  const { count } = useCounterRedux();
 
   return (
     <BottomTab.Navigator
