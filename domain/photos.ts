@@ -3,4 +3,5 @@ export type PhotoT = {
   author: string;
   download_url: string;
   url: string;
+  isFavorite: boolean;
 };

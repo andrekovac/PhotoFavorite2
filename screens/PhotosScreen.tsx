@@ -3,13 +3,16 @@ import styled from 'styled-components/native';
 
 import { RootTabScreenProps } from '../types';
 import PhotoList from '../components/PhotoList';
+import { usePhotosContext } from '../context/photos';
 
 type PhotosScreenProps = RootTabScreenProps<'Photos'>;
 
 const PhotosScreen: React.VFC<PhotosScreenProps> = () => {
+  const { photos: data, isLoading } = usePhotosContext();
+
   return (
     <Wrapper>
-      <PhotoList page={9} />
+      <PhotoList data={data} isLoading={isLoading} />
     </Wrapper>
   );
 };
