@@ -9,7 +9,7 @@ import {
   increment as incrementAction,
   decrement as decrementAction,
   reset as resetAction,
-} from '../../store/actionCreators';
+} from '../../store/actionCreators/counter';
 
 import { Button, ClickedText } from './styles';
 import Wrapper from './Wrapper';

@@ -3,20 +3,18 @@ import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
 import PhotoList from '../components/PhotoList';
-import { usePhotosContext } from '../context/photos';
+import useFavoritesRedux from '../hooks/useFavoritesRedux';
 import { RootTabScreenProps } from '../types';
 
 type FavoritesScreenProps = RootTabScreenProps<'Favorites'>;
 
 const FavoritesScreen: React.VFC<FavoritesScreenProps> = () => {
-  const { photos: data, isLoading } = usePhotosContext();
-
-  const favorites = data.filter((photo) => photo.isFavorite);
+  const [favorites] = useFavoritesRedux();
 
   return (
     <Wrapper>
       {favorites.length > 0 ? (
-        <PhotoList isLoading={isLoading} data={favorites} />
+        <PhotoList data={favorites} />
       ) : (
         <Text>No favorites yet</Text>
       )}

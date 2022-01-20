@@ -9,8 +9,8 @@ const renderItem = ({ item }: ListRenderItemInfo<PhotoT>) => (
 );
 
 type PhotoListProps = {
-  data: PhotoT[];
-  isLoading: boolean;
+  data: readonly PhotoT[];
+  isLoading?: boolean;
 };
 
 const PhotoList: React.VFC<PhotoListProps> = ({ data, isLoading }) => {

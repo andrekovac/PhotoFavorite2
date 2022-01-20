@@ -3,8 +3,8 @@ import styled from 'styled-components/native';
 import { Alert, Pressable } from 'react-native';
 
 import { PhotoT } from '../domain/photos';
-import { usePhotosContext } from '../context/photos';
 import Icon from './Icon';
+import useFavoritesRedux from '../hooks/useFavoritesRedux';
 
 type ItemProps = PhotoT;
 
@@ -15,7 +15,7 @@ const PhotoItem: React.VFC<ItemProps> = ({
   url,
   isFavorite,
 }) => {
-  const { toggleFavorite } = usePhotosContext();
+  const [, toggleFavorite] = useFavoritesRedux();
 
   return (
     <Pressable
