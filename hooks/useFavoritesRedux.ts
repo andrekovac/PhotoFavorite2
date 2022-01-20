@@ -2,11 +2,8 @@ import { Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PhotoT } from '../domain/photos';
-import {
-  toggleFavorite,
-  FavoriteActionT,
-} from '../store/actionCreators/photos';
-import { StoreT } from '../store/reducer';
+import { toggleFavorite, ToggleFavoritesAction } from '../store/slices/photos';
+import { StoreT } from '../store/slices';
 
 /**
  * Fetches favorites from internal photos state
@@ -18,7 +15,7 @@ import { StoreT } from '../store/reducer';
  * There's no more burden on the side of the developer to call state-management library related functions.
  */
 const useFavoritesRedux = () => {
-  const dispatch = useDispatch<Dispatch<FavoriteActionT>>();
+  const dispatch = useDispatch<Dispatch<ToggleFavoritesAction>>();
 
   const favorites = useSelector<StoreT, ReadonlyArray<PhotoT>>((state) =>
     state.photos.data.filter((photo) => photo.isFavorite)
