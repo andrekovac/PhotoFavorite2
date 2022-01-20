@@ -17,6 +17,9 @@ export type PhotosT = {
   isLoading: boolean;
 };
 export type FetchPhotosSuccessAction = PayloadAction<PhotosDataT>;
+export type FetchPhotosStartAction = PayloadAction<
+  { page: number } | undefined
+>;
 export type ToggleFavoritesAction = PayloadAction<string>;
 export type PhotosThunkDispatch = ThunkDispatch<
   StoreT,
@@ -41,7 +44,7 @@ const photosSlice = createSlice({
       }));
       state.isLoading = false;
     },
-    fetchPhotosStart: (state) => {
+    fetchPhotosStart: (state, _action: FetchPhotosStartAction) => {
       state.isLoading = true;
     },
     fetchPhotosError: (state, { payload }) => {

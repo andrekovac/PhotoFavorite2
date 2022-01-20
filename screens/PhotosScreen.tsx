@@ -3,12 +3,12 @@ import styled from 'styled-components/native';
 
 import { RootTabScreenProps } from '../types';
 import PhotoList from '../components/PhotoList';
-import usePhotosRedux from '../hooks/usePhotosRedux';
+import usePhotosReduxSaga from '../hooks/usePhotosReduxSaga';
 
 type PhotosScreenProps = RootTabScreenProps<'Photos'>;
 
 const PhotosScreen: React.VFC<PhotosScreenProps> = () => {
-  const { data, isLoading } = usePhotosRedux(9);
+  const { data, isLoading } = usePhotosReduxSaga(5);
 
   return (
     <Wrapper>
