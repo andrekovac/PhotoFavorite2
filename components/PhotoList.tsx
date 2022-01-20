@@ -39,28 +39,32 @@ const renderItem = ({
   item: { author, download_url, url },
 }: ListRenderItemInfo<ItemT>) => <Item {...{ author, download_url, url }} />;
 
-const PhotoList: React.VFC = () => {
+type PhotoListProps = {
+  page: number;
+};
+
+const PhotoList: React.VFC<PhotoListProps> = ({ page }) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<ItemT[]>([]);
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        'https://picsum.photos/v2/list?page=9&limit=100'
-      );
-      const result = await response.json();
-      setData(result);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `https://picsum.photos/v2/list?page=${page}&limit=100`
+        );
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
-  }, []);
+  }, [page]);
 
   return isLoading ? (
     <ActivityIndicator />

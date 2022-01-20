@@ -9,7 +9,7 @@ type PhotosScreenProps = RootTabScreenProps<'Photos'>;
 const PhotosScreen: React.VFC<PhotosScreenProps> = () => {
   return (
     <Wrapper>
-      <PhotoList />
+      <PhotoList page={9} />
     </Wrapper>
   );
 };
