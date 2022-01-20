@@ -6,13 +6,20 @@ import { Button, ClickedText } from './styles';
 import Wrapper from './Wrapper';
 
 const CounterWithContext: React.VFC = () => {
-  const { count, increment } = useContext<CounterContextT>(CounterContext);
+  const { count, increment, decrement, reset } =
+    useContext<CounterContextT>(CounterContext);
 
   return (
     <Wrapper title="Context">
       <ClickedText>Clicked {count} times</ClickedText>
       <Button onPress={increment}>
         <Text>Increment</Text>
+      </Button>
+      <Button onPress={decrement}>
+        <Text>Decrement</Text>
+      </Button>
+      <Button onPress={reset}>
+        <Text>Reset</Text>
       </Button>
     </Wrapper>
   );

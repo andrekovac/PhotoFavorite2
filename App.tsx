@@ -19,6 +19,14 @@ export default function App() {
     increment: () => {
       setCount((prevCount) => prevCount + 1);
     },
+    decrement: () => {
+      if (count > 0) {
+        setCount((prevCount) => prevCount - 1);
+      }
+    },
+    reset: () => {
+      setCount(0);
+    },
   };
 
   if (!isLoadingComplete) {
