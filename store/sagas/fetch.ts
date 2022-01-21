@@ -9,17 +9,22 @@ import {
   fetchPhotosSuccess,
 } from '../slices/photos';
 
-export const fetchPhotos = async (): Promise<ReadonlyArray<PhotoT>> => {
+export const fetchPhotos = async (
+  page: number
+): Promise<ReadonlyArray<PhotoT>> => {
   const response = await fetch(
-    'https://picsum.photos/v2/list?page=9&limit=100'
+    `https://picsum.photos/v2/list?page=${page}&limit=100`
   );
   return response.json();
 };
 
 // Worker Saga: Will be fired when fetchPhotosStart action is dispatched
-function* fetchData(): SagaIterator<void> {
+function* fetchData({
+  payload,
+}: ReturnType<typeof fetchPhotosStart>): SagaIterator<void> {
   try {
-    const photos = yield call(fetchPhotos);
+    const page = payload?.page ?? 9;
+    const photos = yield call(fetchPhotos, page);
     yield put(fetchPhotosSuccess(photos));
   } catch (error) {
     yield put(fetchPhotosError(error));

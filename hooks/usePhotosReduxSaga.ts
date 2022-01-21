@@ -15,7 +15,7 @@ const usePhotosReduxSaga = (page: number) => {
   const dispatch = useDispatch<AppDispatch<FetchPhotosStartAction>>();
 
   useEffect(() => {
-    dispatch(fetchPhotosStart());
+    dispatch(fetchPhotosStart({ page }));
   }, [page, dispatch]);
 
   const photos = useSelector<StoreT, PhotosT>((state) => state.photos);
