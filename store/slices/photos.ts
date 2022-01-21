@@ -7,8 +7,9 @@ import {
 
 import { AppDispatch, StoreT } from '.';
 import { PhotoT } from '../../domain/photos';
+import { reset } from './actions';
 
-export type PhotosDataT = ReadonlyArray<PhotoT>;
+export type PhotosDataT = PhotoT[];
 export type PhotosT = {
   data: PhotosDataT;
   error?: Error;
@@ -53,6 +54,12 @@ const photosSlice = createSlice({
           : photo
       );
     },
+  },
+  extraReducers: (builder) => {
+    // builder callback approach
+    builder.addCase(reset, (state) => {
+      state.data = initialState.data;
+    });
   },
 });
 

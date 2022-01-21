@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { StoreT } from './index';
+import { reset as globalReset } from './actions';
 
 const initialState = 0;
 
@@ -11,6 +12,11 @@ const counterSlice = createSlice({
     increment: (state) => state + 1,
     decrement: (state) => (state > 0 ? state - 1 : state),
     reset: () => 0,
+  },
+  extraReducers: {
+    [globalReset.type]: () => {
+      return initialState;
+    },
   },
 });
 
