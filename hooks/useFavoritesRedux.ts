@@ -2,7 +2,11 @@ import { Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PhotoT } from '../domain/photos';
-import { toggleFavorite, ToggleFavoritesAction } from '../store/slices/photos';
+import {
+  favoritesSelector,
+  toggleFavorite,
+  ToggleFavoritesAction,
+} from '../store/slices/photos';
 import { StoreT } from '../store/slices';
 
 /**
@@ -17,8 +21,8 @@ import { StoreT } from '../store/slices';
 const useFavoritesRedux = () => {
   const dispatch = useDispatch<Dispatch<ToggleFavoritesAction>>();
 
-  const favorites = useSelector<StoreT, ReadonlyArray<PhotoT>>((state) =>
-    state.photos.data.filter((photo) => photo.isFavorite)
+  const favorites = useSelector<StoreT, ReadonlyArray<PhotoT>>(
+    favoritesSelector
   );
 
   const setToggleFavorite = (id: string) => {

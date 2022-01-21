@@ -97,5 +97,12 @@ export const favoritesSelector = createSelector([photosSelector], (photos) => {
   return photos.data.filter((photo) => photo.isFavorite);
 });
 
+export const favoritesCountSelector = createSelector(
+  [favoritesSelector],
+  (favorites) => {
+    return favorites.length;
+  }
+);
+
 // The reducer
 export default photosSlice.reducer;

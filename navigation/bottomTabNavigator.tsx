@@ -15,6 +15,9 @@ import CounterScreen from '../screens/CounterScreen';
 import { RootTabParamList, RootTabScreenProps } from '../types';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import useCounterRedux from '../hooks/useCounterRedux';
+import { useSelector } from 'react-redux';
+import { StoreT } from '../store/slices';
+import { favoritesCountSelector } from '../store/slices/photos';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -25,6 +28,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const { count } = useCounterRedux();
+  const favoritesCount = useSelector<StoreT, number>(favoritesCountSelector);
 
   return (
     <BottomTab.Navigator
@@ -64,6 +68,7 @@ function BottomTabNavigator() {
         options={{
           title: 'Favorites',
           tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
+          tabBarBadge: favoritesCount,
         }}
       />
       <BottomTab.Screen
