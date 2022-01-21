@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, StoreT } from '../store/slices';
 import {
-  fetchPhotos,
   FetchPhotosSuccessAction,
+  fetchPhotosThunk,
   PhotosT,
 } from '../store/slices/photos';
 
@@ -11,7 +11,7 @@ const usePhotosRedux = (page: number) => {
   const dispatch = useDispatch<AppDispatch<FetchPhotosSuccessAction>>();
 
   useEffect(() => {
-    dispatch(fetchPhotos(page));
+    dispatch(fetchPhotosThunk(page));
   }, [page, dispatch]);
 
   const photos = useSelector<StoreT, PhotosT>((state) => state.photos);

@@ -1,4 +1,5 @@
 import {
+  createAsyncThunk,
   createSelector,
   createSlice,
   PayloadAction,
@@ -60,6 +61,18 @@ const photosSlice = createSlice({
     builder.addCase(reset, (state) => {
       state.data = initialState.data;
     });
+
+    builder.addCase(fetchPhotosThunk.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.isLoading = false;
+      state.error = undefined;
+    });
+    builder.addCase(fetchPhotosThunk.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchPhotosThunk.rejected, (state) => {
+      state.isLoading = false;
+    });
   },
 });
 
@@ -77,6 +90,18 @@ const fetchData = async (page: number): Promise<PhotosDataT> => {
   );
   return response.json();
 };
+
+/**
+ * Redux thunk schema from redux-toolkit
+ */
+export const fetchPhotosThunk = createAsyncThunk<
+  PhotoT[],
+  number,
+  Record<string, unknown>
+>('photos/fetchPhotos', async (page: number) => {
+  const photos = await fetchData(page);
+  return photos;
+});
 
 /**
  * Redux Thunk: A Redux action which is not a plain JavaScript object,
